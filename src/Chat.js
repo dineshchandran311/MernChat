@@ -6,10 +6,12 @@ import axios from './axios';
 
 function Chat({messages}) {
 
+
     const [ input, setInput ] = useState(null);
 
     const sendMessage = async(e) =>{
         e.preventDefault();
+        console.log("Hit send message")
         await axios.post('/messages/new', {
             message: input,
             name: "Raj",
