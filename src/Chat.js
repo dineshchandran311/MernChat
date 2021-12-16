@@ -11,15 +11,20 @@ function Chat({messages}) {
 
     const sendMessage = async(e) =>{
         e.preventDefault();
-        console.log("Hit send message")
-        await axios.post('/messages/new', {
-            message: input,
-            name: "Raj",
-            timestamp: new Date().toISOString(),
-            received: false
-        })
-
+        const value = input;
         setInput('');
+        await axios.post('/messages/new', {
+            // room_name: String,
+            // user: String,
+            // user_mail: String,
+            // message: String,
+            // timestamp: String,
+            room_name : "bois",
+            user: "Raj",
+            user_mail: "cd@gmail.com",
+            message: value,
+            timestamp: new Date().toISOString(),
+        })
     }
 
     return (
@@ -46,15 +51,17 @@ function Chat({messages}) {
             </div>
 
             <div className='chat__body'>
-                {messages.map( message =>(
-                    <p className={`chat__message ${message.received? "":"chat__reciever"} `}>
-                        <span className='chat__name'>{message.name}</span>
+                {messages.map( message =>{
+                    return(
+                        <p className={`chat__message ${ message.user_mail === "cd311@gmail.com" ? "chat__reciever":""} `}>
+                        <span className='chat__name'>{message.user}</span>
                         {message.message}
                         <span className='chat__timestamp'>
                             {message.timestamp}
                         </span>
-                    </p>
-                ))}
+                        </p>
+                    )
+            })}
                 
             </div>
 

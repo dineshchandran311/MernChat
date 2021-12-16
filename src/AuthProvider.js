@@ -10,7 +10,7 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
 
-    const [currentUser, setUser] = useState({});
+    const [currentUser, setUser] = useState();
 
     function Google(){
         return auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())

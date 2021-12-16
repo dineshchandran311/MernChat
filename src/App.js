@@ -22,7 +22,7 @@ function App() {
     
         const channel = pusher.subscribe('messages');
         channel.bind('inserted', function(data) {
-            setMessages([...messages, data]);
+            //setMessages([...messages, data]);
         });
 
         return () =>{
@@ -32,7 +32,7 @@ function App() {
 
     }, [messages])
     
-    console.log(messages);
+    //console.log(messages);
 
   return (
     <div className="app">
