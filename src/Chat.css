@@ -57,6 +57,7 @@
      position: absolute;
      top: -15px;
      font-weight: 800;
+     font-size: 20;
      font-size: xx-small;
  }
 
@@ -65,7 +66,7 @@
   }
   
   ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background-color: transparent;
   }
    
   ::-webkit-scrollbar-thumb {
@@ -105,3 +106,46 @@
       padding: 10px;
       color: gray;
   }
+
+  .progressBar{
+    display: flex;
+    flex-direction: column;
+    flex: 0.65;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainerDel{
+    background-color: aliceblue;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.modalContainer{
+    background-color: aliceblue;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.delete__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    padding: 5px;
+    
+}

@@ -2,45 +2,65 @@ import './App.css';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
 import { useEffect, useState } from 'react';
-import Pusher from 'pusher-js';
 import axios from './axios';
+import { useAuth } from './AuthProvider';
 
-function App() {
+function App({chatAvail}) {
     const [messages, setMessages]= useState([]);
+    const { currentUser } = useAuth();
+    const { currentUserPassword } = useAuth();
+    const [ check , setCheck ] = useState(false);
 
-    useEffect( ()=>{
-        axios.get('/messages/sync')
-        .then( response =>{
-            setMessages(response.data);
-        })
-    }, [])
 
-    useEffect( ()=>{
-        const pusher = new Pusher('92097ee7168e575c5784', {
-            cluster: 'ap2'
-          });
-    
-        const channel = pusher.subscribe('messages');
-        channel.bind('inserted', function(data) {
-            //setMessages([...messages, data]);
-        });
-
-        return () =>{
-            channel.unbind_all()
-            channel.unsubscribe();
+    useEffect( async()=>{
+        if(currentUser){
+            await axios.post('/login',{
+                user_mailid : currentUser,
+                password : currentUserPassword
+            })
+            .then( async(res) => {
+                if(res.data.includes("logged in")){
+                    await axios.post('/messages/sync',{
+                        users_mailid: currentUser
+                    })
+                    .then( response =>{
+                        setCheck(true);
+                        setMessages(response.data);
+                    })
+                    .catch( e => console.log(e))
+                }
+               
+            })
+            .catch( e =>{
+                console.log(e);
+            })
         }
+    })
 
-    }, [messages])
+    // useEffect( ()=>{
+    //     const pusher = new Pusher('92097ee7168e575c5784', {
+    //         cluster: 'ap2'
+    //       });
     
-    //console.log(messages);
+    //     const channel = pusher.subscribe('messages');
+    //     channel.bind('inserted', function(data) {
+    //         //setMessages([...messages, data]);
+    //     });
+
+    //     return () =>{
+    //         channel.unbind_all()
+    //         channel.unsubscribe();
+    //     }
+
+    // }, [messages])
+    
+    // console.log(messages);
 
   return (
     <div className="app">
 
       <div className="app__body">
-        {/* <Login/> */}
-        <Sidebar/>
-        <Chat messages={messages}/>
+        <Sidebar messages={messages} chatAvail={chatAvail} check={check}/>
       </div>
 
     </div>
